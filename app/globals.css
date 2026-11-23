@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens, from Figma variables (get_variable_defs on 1:592 / 1:847)
+ * and the navbar/menu design context (1:2058, 1191:12375, 1:1060).
+ */
+@theme {
+  /* Breakpoints (CLAUDE.md): mobile <768, tablet 768–1023, desktop ≥1024 */
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+
+  /* Colors — Figma "Color/*" variables */
+  --color-primary-white: #fafafa;
+  --color-primary-black: #1c1c1c;
+  --color-grey-1: #e6e6e6;
+  --color-grey-2: #c0c0c0;
+  /* Approach (1:617, 1191:10348, 1189:3643) */
+  --color-grey-3: #a1a1a1; /* desktop "APPROACH" eyebrow */
+  --color-panel-border: #a9a9a9; /* open accordion panel border */
+  --color-digit: #d9d9d9; /* collapsed panel number */
+  --color-digit-open: #dedede; /* open panel number */
+  --color-card-border: #d8d8d8; /* "latest" green card outline (1:780) */
+  --color-bar-pale: #caedb1; /* footer bars' rendered pale bottom green (gradient-flow overlay) */
+  /* Mobile side rules in The Challenge (1:869 / 1:870) */
+  --color-rule-light: #ededed;
+  /* Nav divider "Line 1" (1:2087): black @ 10% */
+  --color-hairline: rgb(0 0 0 / 0.1);
+
+  /* Fonts — next/font variables set in app/layout.tsx */
+  --font-serif: var(--font-eb-garamond), "EB Garamond", Georgia, serif;
+  --font-sans: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+
+  /* Type — serif headings (Figma text styles H1–H5: EB Garamond 400, lh 1.12, ls -2%) */
+
+  /* Fluid display: hero headline 39 @412 → 61 @1440 (1:853 → 1:598) */
+  --text-display: clamp(2.4375rem, 1.8864rem + 2.1401vw, 3.8125rem);
+  --text-display--line-height: 1.12;
+  --text-display--letter-spacing: -0.02em;
+  --text-h1: 3.8125rem;
+  --text-h1--line-height: 1.12;
+  --text-h1--letter-spacing: -0.02em;
+  --text-h2: 3.0625rem;
+  --text-h2--line-height: 1.12;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h3: 2.4375rem;
+  --text-h3--line-height: 1.12;
+  --text-h3--letter-spacing: -0.02em;
+  --text-h4: 1.9375rem;
+  --text-h4--line-height: 1.12;
+  --text-h4--letter-spacing: -0.02em;
+  --text-h5: 1.5625rem;
+  --text-h5--line-height: 1.12;
+  --text-h5--letter-spacing: -0.02em;
+
+  /* Type — sans UI (Gilmer Regular in Figma, lh 1.3) */
+  --text-body: 1rem; /* 16 — nav links, buttons */
+  --text-body--line-height: 1.3;
+  --text-lead: 1.25rem; /* 20 — mobile menu button */
+  --text-lead--line-height: 1.3;
+  --text-menu: 1.5625rem; /* 25 — mobile menu links */
+  --text-menu--line-height: 1.3;
+  /* Fluid intro: hero subhead 16 @412 → 25 @1440 (1:854 → 1:599) */
+  --text-intro: clamp(1rem, 0.7746rem + 0.8755vw, 1.5625rem);
+  --text-intro--line-height: 1.3;
+
+  /* Eyebrow label — "PROBLEM" (1:608 / 1:864): 13, lh 1.3, uppercase */
+  --text-eyebrow: 0.8125rem;
+  --text-eyebrow--line-height: 1.3;
+  /* Section title: 31 @412 (H4, 1:865) → 49 @1440 (H2, 1:609) */
+  --text-section-title: clamp(1.9375rem, 1.4866rem + 1.751vw, 3.0625rem);
+  --text-section-title--line-height: 1.12;
+  --text-section-title--letter-spacing: -0.02em;
+  /* Row title: 31 @412 (H4, 1190:5043) → 39 @1440 (H3, 1190:3661) */
+  --text-row-title: clamp(1.9375rem, 1.7371rem + 0.7782vw, 2.4375rem);
+  --text-row-title--line-height: 1.12;
+  --text-row-title--letter-spacing: -0.02em;
+
+  /* Approach accordion (Gilmer Bold/Regular/Medium in Figma) */
+  --text-panel-title: 1.5625rem; /* 25 bold — desktop panel title */
+  --text-panel-title--line-height: 1.3;
+  --text-numeral: 4rem; /* 64 medium — desktop panel number */
+  --text-numeral--line-height: 0.875; /* 56 collapsed (open uses 48) */
+  --text-numeral--letter-spacing: -0.02em;
+
+  /* Stats + testimonials (1:723 / 1:958) */
+  --text-stat: clamp(4rem, 2.7977rem + 4.6693vw, 7rem); /* 64 @412 → 112 @1440, Gilmer Regular */
+  --text-stat--line-height: 1.3;
+  --text-stat--letter-spacing: -0.02em;
+  --text-quote-mark: 4rem; /* mobile ” glyph, EB Garamond 64 */
+  --text-quote-mark--line-height: normal;
+  --text-quote-mark--letter-spacing: -0.02em;
+
+  /* Compliance / CTA / footer */
+  --container-compliance-title: 32.0762rem; /* 513.22 — desktop statement text box (1:796) */
+  --container-compliance-title-m: 19.729rem; /* 315.66 — mobile statement (1:1016) */
+  --container-cta-title: 63.8567rem; /* 1021.7 — desktop CTA headline (1:845) */
+  --container-footer-col: 7.625rem; /* 122 — footer link column */
+
+  /* Measures */
+  --container-stats-title: 28.4809rem; /* 455.7 — desktop heading (1:736) */
+  --container-stats-title-m: 21.2949rem; /* 340.72 — mobile heading (1:965) */
+  --container-stat-sub: 16.4573rem; /* 263.32 — desktop stat caption (1190:5020) */
+  --container-stat-sub-m: 10.4033rem; /* 166.45 — mobile stat caption (1:967) */
+  --container-stat-num-m: 10.3059rem; /* 164.9 — mobile stat number (1:967) */
+  --container-quote: 22.199rem; /* 355.18 — desktop quote (1:745) */
+  --container-quote-col: 22.4043rem; /* 358.47 — desktop text column (1:745) */
+  --container-approach-label: 22.9441rem; /* 367.1 — desktop eyebrow column (1:618) */
+  --container-approach-title: 47.4544rem; /* 759.27 — desktop intro (1:619) */
+  --container-row-text: 36.75rem; /* 588 — desktop row text frame (1190:3660) */
+  --container-row-body: 34.7266rem; /* 555.63 — desktop row body (1190:3662) */
+  --container-eyebrow-box: 1.5913rem; /* 25.46 — eyebrow line box (text sits at its bottom) */
+  --container-hero-title-m: 17.7739rem; /* 284.38 — mobile headline box (1:853) */
+  --container-hero-intro: 49.2417rem; /* 787.87 — desktop subhead (1:599) */
+  --container-hero-intro-m: 21.6573rem; /* 346.52 — mobile subhead (1:854) */
+
+  /* Radii */
+  --radius-button: 0.5rem; /* 8 — Button Default (1:2071) */
+  --radius-button-lg: 0.540875rem; /* 8.654 — menu "Book A Demo" (1:1062) */
+  --radius-icon: 0.25rem; /* 4 — menu User / Close tiles */
+  --radius-image: 0.5rem; /* 8 — hero image holder (1:594) */
+}
+
+/* Text reveal: hidden only when JS is running and motion is allowed (class set by an inline head script). */
+.js-reveal [data-reveal] {
+  opacity: 0;
+}
+
+:root {
+  /* Fixed navbar height, read by smooth-scroll.tsx for anchor offsets.
+     Mobile navbar 66 (1191:12375), desktop 64 (1:2058). */
+  --nav-h: 4.125rem;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --nav-h: 4rem;
+  }
+}
+
+html {
+  /* Never `scroll-behavior: smooth` — Lenis owns smoothing on desktop. */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: clip;
+  background: var(--color-primary-white);
+  color: var(--color-primary-black);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary-black);
+  outline-offset: 2px;
+}
+
+/*
+ * Grain for the footer bars: Figma's noise effect doesn't export, so an opaque greyscale fractal-noise tile
+ * (contrast ×3, centred at 0.4) is blended with `overlay`. Tuned against Figma's render of 1:846: the bars'
+ * mean colour stays within ~2 RGB levels and the grain's variation matches (sd 4.8/3.9/3.0/1.8 vs 4.4/4.2/2.8/1.9).
+ */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27160%27%20height%3D%27160%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.85%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20values%3D%271%200%200%200%200%201%200%200%200%200%201%200%200%200%200%200%200%200%200%201%27%2F%3E%3CfeComponentTransfer%3E%3CfeFuncR%20type%3D%27linear%27%20slope%3D%273%27%20intercept%3D%27-1.10%27%2F%3E%3CfeFuncG%20type%3D%27linear%27%20slope%3D%273%27%20intercept%3D%27-1.10%27%2F%3E%3CfeFuncB%20type%3D%27linear%27%20slope%3D%273%27%20intercept%3D%27-1.10%27%2F%3E%3C%2FfeComponentTransfer%3E%3C%2Ffilter%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url(%23n)%27%2F%3E%3C%2Fsvg%3E");
+  background-size: 160px 160px;
+  mix-blend-mode: overlay;
+  opacity: var(--grain-opacity, 0.11);
+}
+
+/* Parallax inner layer: will-change only where parallax actually runs. */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  /* Unlayered, so it wins over the inner layer's utility classes at ≥768. */
+  .parallax-inner {
+    top: var(--px-top);
+    bottom: var(--px-bottom);
+    will-change: transform;
+  }
+}
